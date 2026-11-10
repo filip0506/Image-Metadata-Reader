@@ -2,55 +2,117 @@
 
 # Image Metadata Reader
 
-A browser-based image metadata reader with an extensible plugin system. Select images from your device to inspect available file, camera, GPS, AI-generation, and raw metadata. Processing runs locally in your browser.
+A lightweight, browser-based application for inspecting metadata embedded in image files.
 
-## Run the application
-
-No installation, build step, or server is required:
-
-1. Download or clone this repository.
-2. Open `index.html` in a modern browser.
-3. Drop images into the page or use the file picker, then select an image and run the metadata reader.
-
-The application does not upload images or metadata. Results depend on what metadata is embedded in each file and what the browser and parser can read.
+The application displays available image, camera, GPS, AI-generation, and raw metadata in separate tabs. It processes selected files locally in your browser and uses a small plugin system to keep metadata features independent.
 
 ## Features
 
-- Separate tabs for general properties, camera information, GPS data, AI metadata, raw metadata, and raster-header details.
-- Multiple image selection with previews and thumbnails.
-- BMP/TGA header information where the file header can be read; tested TGA variants can also be previewed.
-- Plugin-based metadata extraction using plain JavaScript.
-- Local script assets; there is no build process or package installation.
+- **Local image inspection:** Select images from your device; image files and metadata are not uploaded by the application.
+- **Multiple images:** Load multiple files, view thumbnails, and switch between images.
+- **General properties:** View file and image details such as dimensions and file size where available.
+- **Camera information:** Inspect photographic metadata such as camera make and model or exposure details when embedded.
+- **GPS information:** View available GPS coordinates and follow supported map links.
+- **AI metadata:** Read recognized prompts and generation parameters when they are embedded in a supported format.
+- **Raw metadata:** Search the metadata tags returned by the parser.
+- **BMP/TGA headers:** Read supported dimensions and pixel-depth information directly from BMP and TGA headers.
+- **TGA previews:** Preview the tested 24-bit and 32-bit true-color uncompressed and RLE variants.
+- **Plugin-based design:** Add metadata handling as an independent JavaScript plugin.
+- **No build tools required:** Run the application without installing Node.js, npm, or a framework.
 
-## Browser regression suite
+Metadata is only shown when it exists in the selected file and can be read by the application. A file extension or preview does not guarantee embedded metadata is available.
 
-Open `test/regression.html`, choose the `test/validation-samples/` folder when prompted, and run the suite. The current test set contains 27 general samples, 10 AI samples, and eight stability checks.
+## Technologies
 
-The suite reports whether each expected sample is present. If a sample is absent, the report identifies it; passing results should be read alongside those notices. Some metadata-processing errors and the deliberate plugin-failure test are expected during the checks.
+- HTML5
+- CSS3
+- Vanilla JavaScript
+- [ExifReader](https://github.com/mattiasw/ExifReader) 4.54.0 for image metadata parsing
+- A local image-format helper for BMP/TGA header reading and tested TGA previews
 
-The suite verifies behavior against the available samples, not every image encoding or metadata variant. The regression page is browser-based and does not currently have an automated headless runner.
+ExifReader is vendored locally and is separately licensed under MPL-2.0. See [Third-Party Components](#third-party-components).
 
-## Known limitations
+## Project Structure
 
-- Embedded EXIF/XMP metadata extraction from BMP and TGA is not supported by the current parser. Header properties are separate from embedded metadata.
-- TGA preview support is limited to tested 24/32-bit true-color uncompressed and RLE variants. Other TGA variants are not verified.
-- AI metadata support is verified only for formats represented in the supplied samples. Midjourney and DALL-E metadata variants are not verified.
-- Preview and metadata support can vary with the browser, file encoding, and metadata present in the image.
+```text
+Image-Metadata-Reader/
+├── index.html
+├── css/
+│   └── style.css
+├── js/
+│   ├── app.js
+│   └── plugin-system.js
+├── lib/
+│   ├── exif-reader.js
+│   └── image-format-reader.js
+├── plugins/
+│   ├── plugin-general.js
+│   ├── plugin-camera.js
+│   ├── plugin-location.js
+│   ├── plugin-ai-metadata.js
+│   ├── plugin-rawdata.js
+│   └── plugin-raster-header.js
+└── test/
+    ├── regression.html
+    ├── regression.js
+    └── validation-samples/
+```
 
-See [Problems.md](Problems.md) for the current verification status and limitations.
+Plugins are loaded explicitly by script tags in `index.html`; the application does not discover plugins automatically. See [AGENT_INSTRUCTIONS.md](AGENT_INSTRUCTIONS.md) for the plugin API and instructions for adding a plugin.
 
-## Project structure
+## Getting Started
 
-- `index.html`, `css/` — application interface and styles.
-- `js/` — application and plugin-system core.
-- `plugins/` — independently registered metadata plugins.
-- `lib/` — image format helper and vendored ExifReader.
-- `test/` — browser regression suite and validation samples.
+### 1. Download the project
 
-For the architecture, plugin API, and instructions for adding a plugin, see [AGENT_INSTRUCTIONS.md](AGENT_INSTRUCTIONS.md) and [DESIGN.md](DESIGN.md).
+Download or clone the repository. Keep the directory structure intact so local scripts and styles load correctly.
 
-## Licensing
+### 2. Launch the application
 
-Original project code and documentation are licensed under the Apache License 2.0. See [LICENSE](LICENSE).
+Open `index.html` in a modern browser. No build or dependency installation is required. If your browser restricts local file access, serve the project directory with a local static web server.
 
-ExifReader is a separately licensed third-party dependency (MPL-2.0). Its version, attribution, and license details are recorded in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md). The project license does not replace or relicense ExifReader.
+### 3. Select and inspect images
+
+1. Drag images into the application or choose them with the file picker.
+2. Select an image from the preview or thumbnail strip.
+3. Click **RUN METADATA READER**.
+4. Choose a metadata category tab to inspect the available results.
+
+The application does not change the original files. Metadata availability depends on each file and the parser's format support.
+
+## Privacy
+
+Image processing is performed locally in the browser using scripts included with the project. The application does not upload selected images or metadata to a remote processing service.
+
+This describes the application's local processing behavior; review any scripts or hosting integrations you add separately.
+
+## Testing
+
+The project includes a browser-based regression suite and does not require Node.js or npm.
+
+1. Open `test/regression.html` in a browser.
+2. Choose the `test/validation-samples/` folder when prompted.
+3. Click **Run regression suite** and review the report.
+
+The current suite covers **27 general samples, 10 AI samples (37 total), and 8 stability checks**. It verifies the available files and reports expected missing sample paths, if any. Some parser errors for unsupported BMP/TGA embedded metadata and the deliberate plugin-failure test are expected conditions.
+
+The browser suite is not an automated headless test runner. For the verified formats and remaining limitations, see [Problems.md](Problems.md).
+
+## Known Limitations
+
+- **BMP/TGA embedded metadata:** The current parser does not extract embedded EXIF/XMP metadata from the supplied BMP/TGA files. The raster-header plugin reads supported header properties separately.
+- **TGA preview formats:** Preview handling has been verified for the supplied 24-bit uncompressed and 32-bit RLE true-color samples. Other TGA variants are not verified.
+- **AI metadata formats:** The available samples cover only the represented metadata structures. Midjourney and DALL-E metadata variants are not verified.
+- **Browser and encoding support:** Preview and metadata parsing can vary by browser, file encoding, and the metadata actually present.
+
+See [Problems.md](Problems.md) for the current verification details. Do not interpret unverified formats as supported.
+
+## License
+
+Original project code and documentation are licensed under the **Apache License 2.0**. See [LICENSE](LICENSE).
+
+### Third-Party Components
+
+- **ExifReader 4.54.0** is separately licensed under the **Mozilla Public License 2.0 (MPL-2.0)**. Its verified attribution and license text are in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md). The project's Apache license does not replace or relicense ExifReader.
+
+The validation images are test data and are not covered by the project's Apache license. Confirm permission and include required attribution or license notices before redistributing them.
+
