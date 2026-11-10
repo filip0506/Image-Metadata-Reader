@@ -104,22 +104,17 @@ The browser suite is not an automated headless test runner. For the verified for
 - **AI metadata formats:** The available samples cover only the represented metadata structures. Midjourney and DALL-E metadata variants are not verified.
 - **Browser and encoding support:** Preview and metadata parsing can vary by browser, file encoding, and the metadata actually present.
 
-See [Problems.md](Problems.md) for the current verification status and limitations.
+See [Problems.md](Problems.md) for the current verification details. Do not interpret unverified formats as supported.
 
-## Project structure
+## AI-assisted development
+AI coding tools contributed to this project. The code and behavior should still be reviewed and verified; passing regression tests do not guarantee compatibility with every image or metadata format.
 
-- `index.html`, `css/` — application interface and styles.
-- `js/` — application and plugin-system core.
-- `plugins/` — independently registered metadata plugins.
-- `lib/` — image format helper and vendored ExifReader.
-- `test/` — browser regression suite and validation samples.
-
-For the architecture, plugin API, and instructions for adding a plugin, see [AGENT_INSTRUCTIONS.md](AGENT_INSTRUCTIONS.md) and [DESIGN.md](DESIGN.md).
-
-## Licensing
+## License
 
 Original project code and documentation are licensed under the **Apache License 2.0**. See [LICENSE](LICENSE).
 
-ExifReader is a separately licensed third-party dependency (MPL-2.0). Its version, attribution, and license details are recorded in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md). The project license does not replace or relicense ExifReader.
+### Third-Party Components
+
+- **ExifReader 4.54.0** is separately licensed under the **Mozilla Public License 2.0 (MPL-2.0)**. Its verified attribution and license text are in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md). The project's Apache license does not replace or relicense ExifReader.
 
 The validation images are test data and are not covered by the project's Apache license. Confirm permission and include required attribution or license notices before redistributing them.
