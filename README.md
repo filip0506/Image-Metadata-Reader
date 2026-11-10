@@ -106,6 +106,9 @@ The browser suite is not an automated headless test runner. For the verified for
 
 See [Problems.md](Problems.md) for the current verification details. Do not interpret unverified formats as supported.
 
+## AI-assisted development
+AI coding tools contributed to this project. The code and behavior should still be reviewed and verified; passing regression tests do not guarantee compatibility with every image or metadata format.
+
 ## License
 
 Original project code and documentation are licensed under the **Apache License 2.0**. See [LICENSE](LICENSE).
