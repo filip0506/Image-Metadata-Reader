@@ -1,0 +1,51 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Metadata Reader Regression Suite</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="regression-controls">
+        <h1>Browser Regression Suite</h1>
+        <p>Select the <code>test/validation-samples</code> folder to run the application against its images.</p>
+        <input id="validation-folder" type="file" webkitdirectory multiple>
+        <button id="run-regression" type="button" disabled>Run regression suite</button>
+        <pre id="regression-report" aria-live="polite">Choose the validation-samples folder to begin.</pre>
+    </header>
+    <div class="app-container">
+        <aside class="left-panel">
+            <div class="panel-header"><h2>Metadata Categories</h2></div>
+            <nav class="tab-list" id="left-tab-list"></nav>
+            <div class="tab-content-viewport" id="tab-data-viewport"></div>
+        </aside>
+        <main class="right-panel">
+            <label class="main-preview-window" id="drop-zone" for="file-picker">
+                <div class="drop-zone-message" id="upload-placeholder">
+                    <p>Select a validation image to start.</p>
+                </div>
+                <img id="main-preview-image" style="display: none;" alt="Preview Window">
+                <input type="file" id="file-picker" multiple style="display: none;">
+            </label>
+            <section class="thumbnail-strip" id="thumbnail-strip" style="display: none;"></section>
+            <section class="action-bar">
+                <button class="btn-run-analysis" id="btn-run-analysis" disabled>▶ RUN METADATA READER</button>
+            </section>
+        </main>
+    </div>
+
+    <script src="../lib/exif-reader.js"></script>
+    <script src="../lib/image-format-reader.js"></script>
+    <script src="../js/plugin-system.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../plugins/plugin-general.js"></script>
+    <script src="../plugins/plugin-raster-header.js"></script>
+    <script src="../plugins/plugin-camera.js"></script>
+    <script src="../plugins/plugin-location.js"></script>
+    <script src="../plugins/plugin-rawdata.js"></script>
+    <script src="../plugins/plugin-ai-metadata.js"></script>
+    <script src="regression.js"></script>
+</body>
+</html>

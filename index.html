@@ -1,0 +1,92 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Image Metadata Reader</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- LEFT PANEL: Dynamic Tab Navigation & Data Views -->
+        <aside class="left-panel">
+            <div class="panel-header">
+                <h2>Metadata Categories</h2>
+            </div>
+            
+            <!-- Dynamic tab buttons will be injected here by the plugin system -->
+            <nav class="tab-list" id="left-tab-list">
+                <div class="tab-placeholder">Load images to populate tags</div>
+            </nav>
+
+            <!-- Dynamic data tables corresponding to the selected tab will render here -->
+            <div class="tab-content-viewport" id="tab-data-viewport">
+                <table class="metadata-table">
+                    <thead>
+                        <tr>
+                            <th>Property Name</th>
+                            <th>Value Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="placeholder-text">No analysis executed yet</span></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </aside>
+
+        <!-- RIGHT PANEL: Image Workspaces & Action Triggers -->
+        <main class="right-panel">
+            <!-- Top Section: Selected Active Canvas Preview / Drop Zone -->
+            <!-- CRITICAL CHANGE: Changed from <section> to <label> with for="file-picker" -->
+            <label class="main-preview-window" id="drop-zone" for="file-picker">
+                <div class="drop-zone-message" id="upload-placeholder">
+                    <span class="icon">📷</span>
+                    <p>Drag & Drop Images Here or Click to Browse</p>
+                </div>
+                <!-- Hidden image tag that surfaces when an image is loaded -->
+                <img id="main-preview-image" style="display: none;" alt="Preview Window">
+                <!-- Hidden file input for native browsing alternative -->
+                <input type="file" id="file-picker" multiple accept="image/*,.tga" style="display: none;">
+            </label>
+
+            <!-- Middle Section: Multi-Image Thumbnail Gallery -->
+            <section class="thumbnail-strip" id="thumbnail-strip" style="display: none;">
+                <!-- Generated dynamically via JS when multiple items exist -->
+            </section>
+
+            <!-- Bottom Section: Persistent Analysis Trigger -->
+            <section class="action-bar">
+                <button class="btn-run-analysis" id="btn-run-analysis" disabled>
+                    ▶ RUN METADATA READER
+                </button>
+            </section>
+        </main>
+    </div>
+
+    <!-- Script assets loaded sequentially -->
+    <!-- Third-party library dependency -->
+    <script src="lib/exif-reader.js"></script>
+    <script src="lib/image-format-reader.js"></script>
+    
+    <!-- Core Application Files -->
+    <script src="js/plugin-system.js"></script>
+    <script src="js/app.js"></script>
+    
+    <!-- Plugin Registries -->
+    <script src="plugins/plugin-general.js"></script>
+    <script src="plugins/plugin-raster-header.js"></script>
+    <script src="plugins/plugin-camera.js"></script>
+    <script src="plugins/plugin-location.js"></script>
+    <script src="plugins/plugin-rawdata.js"></script>
+    <script src="plugins/plugin-ai-metadata.js"></script>
+</body>
+</html>
+
+
+    

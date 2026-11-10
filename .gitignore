@@ -1,0 +1,10 @@
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local editor settings
+.idea/
+
+# Logs
+*.log
